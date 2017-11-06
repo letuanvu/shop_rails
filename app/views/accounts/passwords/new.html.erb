@@ -1,0 +1,35 @@
+<div class="register-box">
+  <div class="register-logo">
+    <a href="../../index2.html"><b>Shop</b>RAILS</a>
+  </div>
+
+  <div class="register-box-body">
+    <p class="login-box-msg">Forgot your password?</p>
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <%= devise_error_messages! %>
+        <div class="form-group has-feedback">
+          <%= f.label :email %>
+          <%= f.email_field :email, autofocus: true, class:"form-control", placeholder:"Email" %>
+          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+
+
+        <div class="row">
+          <div class="col-xs-8"></div>
+          <!-- /.col -->
+          <div class="col-xs-4">
+            <div class="actions">
+              <%= f.submit "Reset pass", class: "btn btn-primary btn-block btn-flat" %>
+            </div>
+          </div>
+          <!-- /.col -->
+        </div>
+
+    <% end %>
+
+    <%= render "accounts/shared/links" %>
+
+  </div>
+  <!-- /.form-box -->
+</div>
+

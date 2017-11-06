@@ -1,0 +1,136 @@
+<!-- main-slider -->
+<ul id="demo1">
+  <li>
+    <%= image_tag "front/11.jpg"  %>
+
+    <!--Slider Description example-->
+    <div class="slide-desc">
+      <h3>Buy Rice Products Are Now On Line With Us</h3>
+    </div>
+  </li>
+  <li>
+    <%= image_tag "front/22.jpg"  %>
+
+    <div class="slide-desc">
+      <h3>Whole Spices Products Are Now On Line With Us</h3>
+    </div>
+  </li>
+
+  <li>
+    <%= image_tag "front/44.jpg"  %>
+
+    <div class="slide-desc">
+      <h3>Whole Spices Products Are Now On Line With Us</h3>
+    </div>
+  </li>
+</ul>
+<!-- //main-slider -->
+
+
+<!-- new -->
+<div class="newproducts-w3agile">
+  <div class="container">
+    <h3>our products</h3>
+    <div class="agile_top_brands_grids">
+
+      <% @list.each do |item| %>
+
+          <div class="col-md-3 top_brand_left-1">
+            <div class="hover14 column">
+              <div class="agile_top_brand_left_grid">
+                <div class="agile_top_brand_left_grid_pos">
+                  <%= image_tag "front/offer.png",class:"img-responsive"  %>
+                </div>
+                <div class="agile_top_brand_left_grid1">
+                  <figure>
+                    <div class="snipcart-item block">
+                      <div class="snipcart-thumb">
+                        <a href="products.html"><%= image_tag "front/14.png" %></a>
+                        <p><%= item.name %></p>
+                        <h4>$<%= item.price %></h4>
+                      </div>
+                      <div class="snipcart-details top_brand_home_details">
+                        <button type="button" data-toggle="modal" data-target="#Cart" value="<%= item.id %>" class="button add_cart open_cart">Add to cart</button>
+                      </div>
+                    </div>
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </div>
+      <% end %>
+
+      <div class="clearfix"> </div>
+    </div>
+  </div>
+</div>
+<!-- //new -->
+
+<!--banner-bottom-->
+<div class="ban-bottom-w3l">
+  <div class="container">
+    <div class="col-md-6 ban-bottom3">
+      <div class="ban-top">
+        <%= image_tag "front/p2.jpg",class:"img-responsive"  %>
+
+
+      </div>
+      <div class="ban-img">
+        <div class=" ban-bottom1">
+          <div class="ban-top">
+            <%= image_tag "front/p3.jpg",class:"img-responsive"  %>
+
+          </div>
+        </div>
+        <div class="ban-bottom2">
+          <div class="ban-top">
+            <%= image_tag "front/p4.jpg",class:"img-responsive"  %>
+
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="col-md-6 ban-bottom">
+      <div class="ban-top">
+        <%= image_tag "front/111.jpg",class:"img-responsive"  %>
+
+
+      </div>
+    </div>
+
+    <div class="clearfix"></div>
+  </div>
+</div>
+<!--banner-bottom-->
+
+<!-- Modal -->
+<div class="modal fade" id="Cart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h2 class="modal-title" id="myModalLabel" style="color: #FE9126">Your cart</h2>
+      </div>
+      <div class="modal-body">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Number</th>
+            <th>Unit price</th>
+            <th>Total</th>
+            <th>Cancel</th>
+          </tr>
+          </thead>
+          <tbody class="tablecart">
+
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-warning btn-flat" href="/shop/cart">Create order</a>
+      </div>
+    </div>
+  </div>
+</div>

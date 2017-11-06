@@ -1,0 +1,50 @@
+<div class="login-box">
+  <div class="login-logo">
+    <a href="../../index2.html"><b>Shop</b>RAILS</a>
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <p class="login-box-msg">Sign in to start your session</p>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="form-group has-feedback">
+          <%= f.email_field :email, class:"form-control", placeholder:"Email", autofocus: true %>
+          <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        </div>
+
+        <div class="form-group has-feedback">
+          <%= f.password_field :password, class:"form-control", placeholder:"Password", autocomplete: "off" %>
+          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <div class="row">
+          <div class="col-xs-8">
+            <% if devise_mapping.rememberable? -%>
+                <div class="field">
+                  <%= f.check_box :remember_me %>
+                  <%= f.label :remember_me %>
+                </div>
+            <% end -%>
+          </div>
+          <div class="col-xs-4">
+            <div class="actions">
+              <%= f.submit "Sign In", class:"btn btn-primary btn-block btn-flat"  %>
+            </div>
+          </div>
+        </div>
+    <% end %>
+
+    <div class="social-auth-links text-center">
+      <p>- OR -</p>
+      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
+        Facebook</a>
+      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
+        Google+</a>
+    </div>
+    <!-- /.social-auth-links -->
+
+    <%= render "accounts/shared/links" %>
+
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->

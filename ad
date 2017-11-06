@@ -1,0 +1,19 @@
+
+[1mFrom:[0m /home/ltvu5/Desktop/training/app/controllers/front_controller.rb @ line 64 FrontController#createorder:
+
+    [1;34m63[0m: [32mdef[0m [1;34mcreateorder[0m
+ => [1;34m64[0m:   binding.pry
+    [1;34m65[0m:   ship_info = [1;34;4mShippingInfo[0m.new([33m:shipping_type[0m => params[[31m[1;31m"[0m[31mshiping_info[1;31m"[0m[31m[0m][[31m[1;31m"[0m[31mshipping_type[1;31m"[0m[31m[0m],[33m:shipping_region_id[0m => params[[31m[1;31m"[0m[31mshiping_info[1;31m"[0m[31m[0m][[31m[1;31m"[0m[31madress[1;31m"[0m[31m[0m],[33m:shipping_cost[0m => params[[31m[1;31m"[0m[31mshiping_info[1;31m"[0m[31m[0m][[31m[1;31m"[0m[31mshipping_cost[1;31m"[0m[31m[0m] )
+    [1;34m66[0m:   ship_info.save
+    [1;34m67[0m:   ship_id = ship_info.id
+    [1;34m68[0m: 
+    [1;34m69[0m:   order_info = [1;34;4mOrder[0m.new([33m:orderStatus[0m=>[31m[1;31m"[0m[31mpending[1;31m"[0m[31m[0m, [33m:shipping_infos_id[0m=>ship_id, [33m:customers_id[0m=>current_account[[31m[1;31m'[0m[31mid[1;31m'[0m[31m[0m])
+    [1;34m70[0m:   order_info.save
+    [1;34m71[0m:   order_id = order_info.id
+    [1;34m72[0m: 
+    [1;34m73[0m:   params[[31m[1;31m'[0m[31morder_product[1;31m'[0m[31m[0m].each [32mdo[0m |i|
+    [1;34m74[0m:     [1;34;4mOrderProduct[0m.new()
+    [1;34m75[0m:   [32mend[0m
+    [1;34m76[0m: 
+    [1;34m77[0m: [32mend[0m
+

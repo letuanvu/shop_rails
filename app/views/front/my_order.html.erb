@@ -1,0 +1,120 @@
+<div class="newproducts-w3agile">
+  <div class="container">
+    <div class="row">
+      <h3>Order</h3>
+      <div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" style="margin-top: 30px">
+        <table id="example1" class="table table-bordered table-hover">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Name customer</th>
+            <th>Status</th>
+            <th>Time</th>
+            <th>more</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% stt = 0 %>
+          <% @list.each do |order| %>
+              <tr>
+                <td><%= stt+=1 %></td>
+                <td><%= order.customerName %></td>
+                <td <% if order.orderStatus == 'Cancel' %>style="color:red"<% elsif order.orderStatus == 'Processed' %>style="color:#00a65a"<% else %><% end %> ><%= order.orderStatus %></td>
+                <td><%= order.created_at %></td>
+                <td class="text-center">
+                  <% if order.orderStatus == 'pending'  %>
+                      <%= link_to '<i class="fa fa-cart-arrow-down" aria-hidden="true"></i>'.html_safe, change_status_order_cus_path(order),
+                                  :data => {:confirm => "You sure cancel this order?",
+                                            :method => "get"}, class:"btn btn-warning btn-sm btn-flat" %>
+                  <% end %>
+
+                  <button data-toggle="modal" value="<%= order['id'] %>" data-target="#detailOrder" class="detailOrder btn btn-flat btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+
+                </td>
+              </tr>
+          <% end %>
+          </tbody>
+          <tfoot>
+          <tr>
+            <th>#</th>
+            <th>Name customer</th>
+            <th>Status</th>
+            <th>Time</th>
+            <th width="10%">more</th>
+          </tr>
+          </tfoot>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="detailOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Detail order</h4>
+      </div>
+      <div class="modal-body">
+        <div class="box-body">
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <h4>Order detail</h4>
+              <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name product</th>
+                  <th>Price</th>
+                  <th>Unit price</th>
+                </tr>
+                </thead>
+                <tbody id="dataproduct">
+
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>#</th>
+                  <th>Name product</th>
+                  <th>Price</th>
+                  <th>Unit price</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <h4>Ship info</h4>
+              <table id="example1" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Shipping type</th>
+                  <th>Shipping cost</th>
+                  <th>Shipping region id</th>
+                </tr>
+                </thead>
+                <tbody id="dataship">
+
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>#</th>
+                  <th>Shipping type</th>
+                  <th>Shipping cost</th>
+                  <th>Shipping region id</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm btn-flat" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>

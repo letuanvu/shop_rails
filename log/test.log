@@ -1,0 +1,1964 @@
+  [1m[35m (79.8ms)[0m  [1m[35mDROP DATABASE IF EXISTS `training_test`[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE DATABASE `training_test` DEFAULT CHARACTER SET `utf8`[0m
+  [1m[35m (475.8ms)[0m  [1m[35mCREATE TABLE `accounts` (`id` int AUTO_INCREMENT PRIMARY KEY, `email` varchar(255) DEFAULT '' NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `sign_in_count` int DEFAULT 0 NOT NULL, `current_sign_in_at` datetime, `last_sign_in_at` datetime, `current_sign_in_ip` varchar(255), `last_sign_in_ip` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, UNIQUE INDEX `index_accounts_on_email` USING btree (`email`), UNIQUE INDEX `index_accounts_on_reset_password_token` USING btree (`reset_password_token`)) ENGINE=InnoDB DEFAULT CHARSET=utf8[0m
+  [1m[35m (420.2ms)[0m  [1m[35mCREATE TABLE `administrators` (`id` int AUTO_INCREMENT PRIMARY KEY, `admin_name` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, `accounts_id` int,  INDEX `index_administrators_on_accounts_id` USING btree (`accounts_id`), UNIQUE INDEX `index_administrators_on_id` USING btree (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8[0m
+  [1m[35m (351.6ms)[0m  [1m[35mCREATE TABLE `customers` (`id` int AUTO_INCREMENT PRIMARY KEY, `customerName` varchar(255), `creditCardInfo` varchar(255), `address` text, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, `accounts_id` int,  INDEX `index_customers_on_accounts_id` USING btree (`accounts_id`), UNIQUE INDEX `index_customers_on_id` USING btree (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8[0m
+  [1m[35m (361.5ms)[0m  [1m[35mCREATE TABLE `order_products` (`id` int AUTO_INCREMENT PRIMARY KEY, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, `unit_price` float(24), `products_id` int, `orders_id` int,  INDEX `index_order_products_on_orders_id` USING btree (`orders_id`),  INDEX `index_order_products_on_products_id` USING btree (`products_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8[0m
+  [1m[35m (1609.3ms)[0m  [1m[35mCREATE TABLE `orders` (`id` int AUTO_INCREMENT PRIMARY KEY, `orderStatus` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, `shipping_infos_id` int, `customers_id` int,  INDEX `index_orders_on_customers_id` USING btree (`customers_id`), UNIQUE INDEX `index_orders_on_id` USING btree (`id`),  INDEX `index_orders_on_shipping_infos_id` USING btree (`shipping_infos_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8[0m
+  [1m[35m (350.8ms)[0m  [1m[35mCREATE TABLE `products` (`id` int AUTO_INCREMENT PRIMARY KEY, `name` varchar(255), `price` float(24), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, UNIQUE INDEX `index_products_on_id` USING btree (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8[0m
+  [1m[35m (395.2ms)[0m  [1m[35mCREATE TABLE `shipping_infos` (`id` int AUTO_INCREMENT PRIMARY KEY, `shipping_type` varchar(255), `shipping_cost` int, `shipping_region_id` int, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, UNIQUE INDEX `index_shipping_infos_on_id` USING btree (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8[0m
+  [1m[35m (1075.1ms)[0m  [1m[35mALTER TABLE `administrators` ADD CONSTRAINT `fk_rails_ab2573f7d0`
+FOREIGN KEY (`accounts_id`)
+  REFERENCES `accounts` (`id`)
+[0m
+  [1m[35m (1740.2ms)[0m  [1m[35mALTER TABLE `customers` ADD CONSTRAINT `fk_rails_66d6827a64`
+FOREIGN KEY (`accounts_id`)
+  REFERENCES `accounts` (`id`)
+[0m
+  [1m[35m (1204.8ms)[0m  [1m[35mALTER TABLE `order_products` ADD CONSTRAINT `fk_rails_c14fcb181b`
+FOREIGN KEY (`orders_id`)
+  REFERENCES `orders` (`id`)
+[0m
+  [1m[35m (1100.9ms)[0m  [1m[35mALTER TABLE `order_products` ADD CONSTRAINT `fk_rails_55c2aee58c`
+FOREIGN KEY (`products_id`)
+  REFERENCES `products` (`id`)
+[0m
+  [1m[35m (986.9ms)[0m  [1m[35mALTER TABLE `orders` ADD CONSTRAINT `fk_rails_a4cda5ee73`
+FOREIGN KEY (`customers_id`)
+  REFERENCES `customers` (`id`)
+[0m
+  [1m[35m (1467.0ms)[0m  [1m[35mALTER TABLE `orders` ADD CONSTRAINT `fk_rails_fbe66f4b22`
+FOREIGN KEY (`shipping_infos_id`)
+  REFERENCES `shipping_infos` (`id`)
+[0m
+  [1m[35m (796.8ms)[0m  [1m[35mCREATE TABLE `schema_migrations` (`version` varchar(255) PRIMARY KEY) ENGINE=InnoDB[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT version FROM `schema_migrations`[0m
+  [1m[35m (258.1ms)[0m  [1m[32mINSERT INTO `schema_migrations` (version) VALUES (20171101121115)[0m
+  [1m[35m (187.6ms)[0m  [1m[32mINSERT INTO `schema_migrations` (version) VALUES
+(20171027100254),
+(20171027092919),
+(20171027100340),
+(20171028080319),
+(20171027030330),
+(20171027103249),
+(20171027103856),
+(20171027100850);
+
+[0m
+  [1m[35m (453.2ms)[0m  [1m[35mCREATE TABLE `ar_internal_metadata` (`key` varchar(255) PRIMARY KEY, `value` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT  `ar_internal_metadata`.* FROM `ar_internal_metadata` WHERE `ar_internal_metadata`.`key` = 'environment' LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `ar_internal_metadata` (`key`, `value`, `created_at`, `updated_at`) VALUES ('environment', 'test', '2017-11-02 04:57:25', '2017-11-02 04:57:25')[0m
+  [1m[35m (262.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.7ms)[0m  [1m[34mSELECT  `ar_internal_metadata`.* FROM `ar_internal_metadata` WHERE `ar_internal_metadata`.`key` = 'environment' LIMIT 1[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.5ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT @@FOREIGN_KEY_CHECKS[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 0[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM `products`[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-02 04:57:26', '2017-11-02 04:57:26', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-02 04:57:26', '2017-11-02 04:57:26', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `orders`[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-02 04:57:26', '2017-11-02 04:57:26', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-02 04:57:26', '2017-11-02 04:57:26', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `shipping_infos`[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-02 04:57:26', '2017-11-02 04:57:26', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-02 04:57:26', '2017-11-02 04:57:26', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `customers`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-02 04:57:26', '2017-11-02 04:57:26', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-02 04:57:26', '2017-11-02 04:57:26', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `order_products`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-02 04:57:26', '2017-11-02 04:57:26', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-02 04:57:26', '2017-11-02 04:57:26', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `accounts`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-02 04:57:26', '2017-11-02 04:57:26', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-02 04:57:26', '2017-11-02 04:57:26', 298486374)[0m
+  [1m[35m (287.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 1[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT @@FOREIGN_KEY_CHECKS[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 0[0m
+  [1m[35m (7.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixture Delete (51.8ms)[0m  [1m[31mDELETE FROM `products`[0m
+  [1m[36mFixture Insert (44.6ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:08:20', '2017-11-03 04:08:20', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:08:20', '2017-11-03 04:08:20', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `orders`[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:08:20', '2017-11-03 04:08:20', 980190962)[0m
+  [1m[36mFixture Insert (0.5ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:08:20', '2017-11-03 04:08:20', 298486374)[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM `shipping_infos`[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:08:20', '2017-11-03 04:08:20', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:08:20', '2017-11-03 04:08:20', 298486374)[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM `customers`[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:08:20', '2017-11-03 04:08:20', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:08:20', '2017-11-03 04:08:20', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `order_products`[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:08:20', '2017-11-03 04:08:20', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:08:20', '2017-11-03 04:08:20', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `accounts`[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:08:20', '2017-11-03 04:08:20', 980190962)[0m
+  [1m[36mFixture Insert (2.4ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:08:20', '2017-11-03 04:08:20', 298486374)[0m
+  [1m[35m (240.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.5ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 1[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT @@FOREIGN_KEY_CHECKS[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `products`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:10:49', '2017-11-03 04:10:49', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:10:49', '2017-11-03 04:10:49', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `orders`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:10:49', '2017-11-03 04:10:49', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:10:49', '2017-11-03 04:10:49', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `shipping_infos`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:10:49', '2017-11-03 04:10:49', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:10:49', '2017-11-03 04:10:49', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `customers`[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:10:49', '2017-11-03 04:10:49', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:10:49', '2017-11-03 04:10:49', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `order_products`[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:10:49', '2017-11-03 04:10:49', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:10:49', '2017-11-03 04:10:49', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `accounts`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:10:49', '2017-11-03 04:10:49', 980190962)[0m
+  [1m[36mFixture Insert (0.6ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:10:49', '2017-11-03 04:10:49', 298486374)[0m
+  [1m[35m (428.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 1[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT @@FOREIGN_KEY_CHECKS[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `products`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:23:30', '2017-11-03 04:23:30', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:23:30', '2017-11-03 04:23:30', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `orders`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:23:30', '2017-11-03 04:23:30', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:23:30', '2017-11-03 04:23:30', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `shipping_infos`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:23:30', '2017-11-03 04:23:30', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:23:30', '2017-11-03 04:23:30', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `customers`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:23:30', '2017-11-03 04:23:30', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:23:30', '2017-11-03 04:23:30', 298486374)[0m
+  [1m[36mFixture Delete (0.5ms)[0m  [1m[31mDELETE FROM `order_products`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:23:30', '2017-11-03 04:23:30', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:23:30', '2017-11-03 04:23:30', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `accounts`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:23:30', '2017-11-03 04:23:30', 980190962)[0m
+  [1m[36mFixture Insert (0.8ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:23:30', '2017-11-03 04:23:30', 298486374)[0m
+  [1m[35m (200.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 1[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT @@FOREIGN_KEY_CHECKS[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `products`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `orders`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `shipping_infos`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `customers`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `order_products`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `accounts`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 298486374)[0m
+  [1m[35m (178.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 1[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT @@FOREIGN_KEY_CHECKS[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `products`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `orders`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `shipping_infos`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `customers`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `order_products`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `accounts`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:27', '2017-11-03 04:27:27', 298486374)[0m
+  [1m[35m (965.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 1[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT @@FOREIGN_KEY_CHECKS[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 0[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `products`[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:28', '2017-11-03 04:27:28', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:28', '2017-11-03 04:27:28', 298486374)[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM `orders`[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:28', '2017-11-03 04:27:28', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:28', '2017-11-03 04:27:28', 298486374)[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM `shipping_infos`[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:28', '2017-11-03 04:27:28', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:28', '2017-11-03 04:27:28', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `customers`[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:28', '2017-11-03 04:27:28', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:28', '2017-11-03 04:27:28', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `order_products`[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:28', '2017-11-03 04:27:28', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:28', '2017-11-03 04:27:28', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `accounts`[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:28', '2017-11-03 04:27:28', 980190962)[0m
+  [1m[36mFixture Insert (0.6ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:28', '2017-11-03 04:27:28', 298486374)[0m
+  [1m[35m (198.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 1[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT @@FOREIGN_KEY_CHECKS[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 0[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixture Delete (0.4ms)[0m  [1m[31mDELETE FROM `products`[0m
+  [1m[36mFixture Insert (1.3ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `orders`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `shipping_infos`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `customers`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `order_products`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `accounts`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[35m (190.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 1[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT @@FOREIGN_KEY_CHECKS[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 0[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `products`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `orders`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `shipping_infos`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `customers`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `order_products`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `accounts`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.6ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[35m (230.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.5ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 1[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT @@FOREIGN_KEY_CHECKS[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 0[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `products`[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.5ms)[0m  [1m[31mDELETE FROM `orders`[0m
+  [1m[36mFixture Insert (0.5ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.7ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `shipping_infos`[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `customers`[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `order_products`[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `accounts`[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.6ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[35m (282.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.5ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 1[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT @@FOREIGN_KEY_CHECKS[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 0[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `products`[0m
+  [1m[36mFixture Insert (0.6ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 980190962)[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:29', '2017-11-03 04:27:29', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `orders`[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:30', '2017-11-03 04:27:30', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:30', '2017-11-03 04:27:30', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `shipping_infos`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:30', '2017-11-03 04:27:30', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:30', '2017-11-03 04:27:30', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `customers`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:30', '2017-11-03 04:27:30', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:30', '2017-11-03 04:27:30', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `order_products`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:30', '2017-11-03 04:27:30', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:30', '2017-11-03 04:27:30', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `accounts`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:30', '2017-11-03 04:27:30', 980190962)[0m
+  [1m[36mFixture Insert (0.6ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-03 04:27:30', '2017-11-03 04:27:30', 298486374)[0m
+  [1m[35m (205.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 1[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'ltvu.599@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (5.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('ltvu.599@gmail.com', '$2a$04$d2blaBcBcZWvnE1IXJps.uK6oC0AmbdLc3voYY3a37BigTM.nBLQu', '2017-11-03 07:35:27', '2017-11-03 07:35:27')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/login" for 127.0.0.1 at 2017-11-03 14:35:27 +0700
+  [1m[35m (196.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'ltvu.599@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('ltvu.599@gmail.com', '$2a$04$wDHUpJKDIA2Tm05Z2x18u.LTDOp/nwuuzpBphzh6XdHsGEDcGeVCu', '2017-11-03 07:36:03', '2017-11-03 07:36:03')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/auth/login" for 127.0.0.1 at 2017-11-03 14:36:03 +0700
+Processing by Accounts::SessionsController#new as HTML
+  Rendering accounts/sessions/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.4ms)
+  Rendered accounts/sessions/new.html.erb within layouts/accounts (48.4ms)
+Completed 200 OK in 18100ms (Views: 18087.3ms | ActiveRecord: 0.0ms)
+  [1m[35m (1069.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'ltvu.599@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('ltvu.599@gmail.com', '$2a$04$cBqcaM7DDA6dZq0d9BiPnOhaIHqtJ/aPssag9a9g1y205Q0TkkY0y', '2017-11-03 07:40:04', '2017-11-03 07:40:04')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Started GET "/auth/login" for 127.0.0.1 at 2017-11-03 14:40:04 +0700
+Processing by Accounts::SessionsController#new as HTML
+  Rendering accounts/sessions/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.3ms)
+  Rendered accounts/sessions/new.html.erb within layouts/accounts (22.4ms)
+Completed 200 OK in 401ms (Views: 388.3ms | ActiveRecord: 0.0ms)
+  [1m[35m (236.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:01:25 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.6ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (37.4ms)
+Completed 200 OK in 441ms (Views: 404.6ms | ActiveRecord: 2.2ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:02:07 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (21.1ms)
+Completed 200 OK in 404ms (Views: 380.5ms | ActiveRecord: 1.2ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:24:05 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (21.1ms)
+Completed 200 OK in 407ms (Views: 382.8ms | ActiveRecord: 1.7ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:25:47 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (21.3ms)
+Completed 200 OK in 404ms (Views: 380.8ms | ActiveRecord: 1.0ms)
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:29:11 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (21.7ms)
+Completed 200 OK in 405ms (Views: 380.5ms | ActiveRecord: 1.2ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:29:47 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (22.2ms)
+Completed 200 OK in 405ms (Views: 381.6ms | ActiveRecord: 1.0ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:33:07 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (22.5ms)
+Completed 200 OK in 411ms (Views: 387.2ms | ActiveRecord: 1.3ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:33:25 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (21.2ms)
+Completed 200 OK in 426ms (Views: 402.6ms | ActiveRecord: 1.3ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:40:05 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (23.8ms)
+Completed 200 OK in 413ms (Views: 388.2ms | ActiveRecord: 1.3ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:47:15 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.3ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (33.7ms)
+Completed 200 OK in 557ms (Views: 523.3ms | ActiveRecord: 2.1ms)
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:48:07 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.0ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (21.4ms)
+Completed 200 OK in 404ms (Views: 380.4ms | ActiveRecord: 1.3ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:51:29 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.2ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (22.7ms)
+Completed 200 OK in 430ms (Views: 403.0ms | ActiveRecord: 2.8ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:59:02 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.2ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (24.0ms)
+Completed 200 OK in 418ms (Views: 393.4ms | ActiveRecord: 1.7ms)
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:59:24 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (21.1ms)
+Completed 200 OK in 406ms (Views: 381.4ms | ActiveRecord: 1.1ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 15:59:50 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (21.1ms)
+Completed 200 OK in 413ms (Views: 389.8ms | ActiveRecord: 1.0ms)
+Started POST "/auth/login" for 127.0.0.1 at 2017-11-03 15:59:51 +0700
+Processing by Accounts::SessionsController#create as HTML
+  Parameters: {"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}
+Completed 401 Unauthorized in 1ms (ActiveRecord: 0.0ms)
+Processing by Accounts::SessionsController#new as HTML
+  Parameters: {"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}
+  Rendering accounts/sessions/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (2.7ms)
+  Rendered accounts/sessions/new.html.erb within layouts/accounts (8.1ms)
+Completed 200 OK in 16ms (Views: 13.6ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 16:00:09 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (21.2ms)
+Completed 200 OK in 412ms (Views: 388.4ms | ActiveRecord: 1.5ms)
+Started POST "/auth/login" for 127.0.0.1 at 2017-11-03 16:00:09 +0700
+Processing by Accounts::SessionsController#create as HTML
+  Parameters: {"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}
+Completed 401 Unauthorized in 2ms (ActiveRecord: 0.0ms)
+Processing by Accounts::SessionsController#new as HTML
+  Parameters: {"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}
+  Rendering accounts/sessions/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (8.1ms)
+  Rendered accounts/sessions/new.html.erb within layouts/accounts (15.8ms)
+Completed 200 OK in 23ms (Views: 20.2ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 16:00:43 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (22.2ms)
+Completed 200 OK in 451ms (Views: 426.4ms | ActiveRecord: 1.1ms)
+Started POST "/auth/login" for 127.0.0.1 at 2017-11-03 16:00:43 +0700
+Processing by Accounts::SessionsController#create as HTML
+  Parameters: {"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}
+Completed 401 Unauthorized in 2ms (ActiveRecord: 0.0ms)
+Processing by Accounts::SessionsController#new as HTML
+  Parameters: {"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}
+  Rendering accounts/sessions/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (2.9ms)
+  Rendered accounts/sessions/new.html.erb within layouts/accounts (8.8ms)
+Completed 200 OK in 16ms (Views: 13.7ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 16:01:45 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.2ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (23.2ms)
+Completed 200 OK in 419ms (Views: 389.2ms | ActiveRecord: 2.6ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 16:03:23 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (21.1ms)
+Completed 200 OK in 410ms (Views: 385.9ms | ActiveRecord: 1.3ms)
+Started POST "/auth/login" for 127.0.0.1 at 2017-11-03 16:03:23 +0700
+Processing by Accounts::SessionsController#create as HTML
+  Parameters: {"account"=>{"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}}
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`email` = 'ltvu.599@gmail.com' ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+Completed 401 Unauthorized in 20ms (ActiveRecord: 0.3ms)
+Processing by Accounts::SessionsController#new as HTML
+  Parameters: {"account"=>{"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}}
+Unpermitted parameter: password_confirmation
+  Rendering accounts/sessions/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (2.4ms)
+  Rendered accounts/sessions/new.html.erb within layouts/accounts (8.8ms)
+Completed 200 OK in 25ms (Views: 13.7ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 16:04:19 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (21.5ms)
+Completed 200 OK in 417ms (Views: 390.8ms | ActiveRecord: 2.1ms)
+Started POST "/auth/login" for 127.0.0.1 at 2017-11-03 16:04:20 +0700
+Processing by Accounts::SessionsController#create as HTML
+  Parameters: {"account"=>{"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}}
+  [1m[36mAccount Load (0.2ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`email` = 'ltvu.599@gmail.com' ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+Completed 401 Unauthorized in 7ms (ActiveRecord: 0.2ms)
+Processing by Accounts::SessionsController#new as HTML
+  Parameters: {"account"=>{"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}}
+Unpermitted parameter: password_confirmation
+  Rendering accounts/sessions/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (2.3ms)
+  Rendered accounts/sessions/new.html.erb within layouts/accounts (8.8ms)
+Completed 200 OK in 25ms (Views: 13.9ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 16:10:03 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.2ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (23.3ms)
+Completed 200 OK in 434ms (Views: 404.4ms | ActiveRecord: 1.2ms)
+Started POST "/auth/login" for 127.0.0.1 at 2017-11-03 16:10:03 +0700
+Processing by Accounts::SessionsController#create as HTML
+  Parameters: {"account"=>{"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}}
+  [1m[36mAccount Load (0.1ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`email` = 'ltvu.599@gmail.com' ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+Completed 401 Unauthorized in 4ms (ActiveRecord: 0.1ms)
+Processing by Accounts::SessionsController#new as HTML
+  Parameters: {"account"=>{"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}}
+Unpermitted parameter: password_confirmation
+  Rendering accounts/sessions/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (2.8ms)
+  Rendered accounts/sessions/new.html.erb within layouts/accounts (10.3ms)
+Completed 200 OK in 26ms (Views: 15.1ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 16:14:02 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (21.4ms)
+Completed 200 OK in 407ms (Views: 382.6ms | ActiveRecord: 2.4ms)
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 16:18:11 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (33.7ms)
+Completed 200 OK in 29732ms (Views: 409.7ms | ActiveRecord: 2.6ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 16:19:26 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (23.9ms)
+Completed 200 OK in 417ms (Views: 390.5ms | ActiveRecord: 2.7ms)
+Started POST "/auth/login" for 127.0.0.1 at 2017-11-03 16:19:27 +0700
+Processing by Accounts::SessionsController#create as HTML
+  Parameters: {"account"=>{"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}}
+  [1m[36mAccount Load (0.2ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`email` = 'ltvu.599@gmail.com' ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+Completed 401 Unauthorized in 4ms (ActiveRecord: 0.2ms)
+Processing by Accounts::SessionsController#new as HTML
+  Parameters: {"account"=>{"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}}
+Unpermitted parameter: password_confirmation
+  Rendering accounts/sessions/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (2.1ms)
+  Rendered accounts/sessions/new.html.erb within layouts/accounts (9.0ms)
+Completed 200 OK in 24ms (Views: 13.5ms | ActiveRecord: 0.0ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 16:28:45 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.2ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (21.9ms)
+Completed 200 OK in 414ms (Views: 389.8ms | ActiveRecord: 1.2ms)
+Started POST "/auth/register" for 127.0.0.1 at 2017-11-03 16:28:45 +0700
+Processing by Accounts::RegistrationsController#create as HTML
+  Parameters: {"account"=>{"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}}
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'ltvu.599@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('ltvu.599@gmail.com', '$2a$04$hkXJUL.hFo2V5wUxQ3drNehVXG65a18v1twWoUqqNQRAr5ZZV.MhG', '2017-11-03 09:59:34', '2017-11-03 09:59:34')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (171.9ms)[0m  [1m[33mUPDATE `accounts` SET `sign_in_count` = 1, `current_sign_in_at` = '2017-11-03 09:59:34', `last_sign_in_at` = '2017-11-03 09:59:34', `current_sign_in_ip` = '127.0.0.1', `last_sign_in_ip` = '127.0.0.1' WHERE `accounts`.`id` = 4[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/
+Completed 302 Found in 1849085ms (ActiveRecord: 173.9ms)
+  [1m[35m (270.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+Started GET "/auth/register/cmon_let_me_in" for 127.0.0.1 at 2017-11-03 17:00:23 +0700
+Processing by Accounts::RegistrationsController#new as HTML
+  Rendering accounts/registrations/new.html.erb within layouts/accounts
+  Rendered accounts/shared/_links.html.erb (1.1ms)
+  Rendered accounts/registrations/new.html.erb within layouts/accounts (21.5ms)
+Completed 200 OK in 413ms (Views: 389.2ms | ActiveRecord: 1.1ms)
+Started POST "/auth/register" for 127.0.0.1 at 2017-11-03 17:00:24 +0700
+Processing by Accounts::RegistrationsController#create as HTML
+  Parameters: {"account"=>{"email"=>"ltvu.599@gmail.com", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}}
+  [1m[35m (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'ltvu.599@gmail.com' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('ltvu.599@gmail.com', '$2a$04$6j7jF0/dWSgmsVZTAcAGJOdJ.8IIUR4Sv73maQw427fA.52D9tpj6', '2017-11-03 10:00:54', '2017-11-03 10:00:54')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE `accounts` SET `sign_in_count` = 1, `current_sign_in_at` = '2017-11-03 10:00:54', `last_sign_in_at` = '2017-11-03 10:00:54', `current_sign_in_ip` = '127.0.0.1', `last_sign_in_ip` = '127.0.0.1' WHERE `accounts`.`id` = 5[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://www.example.com/
+Completed 302 Found in 29619ms (ActiveRecord: 2.1ms)
+  [1m[35m (177.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+Processing by ProductController#new as HTML
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms)
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+Processing by ProductController#new as HTML
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms)
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+Processing by ProductController#new as HTML
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms)
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mDROP DATABASE IF EXISTS `training_test`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE DATABASE `training_test` DEFAULT CHARACTER SET `utf8`[0m
+  [1m[35m (800.5ms)[0m  [1m[35mCREATE TABLE `accounts` (`id` int AUTO_INCREMENT PRIMARY KEY, `email` varchar(255) DEFAULT '' NOT NULL, `encrypted_password` varchar(255) DEFAULT '' NOT NULL, `reset_password_token` varchar(255), `reset_password_sent_at` datetime, `remember_created_at` datetime, `sign_in_count` int DEFAULT 0 NOT NULL, `current_sign_in_at` datetime, `last_sign_in_at` datetime, `current_sign_in_ip` varchar(255), `last_sign_in_ip` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, UNIQUE INDEX `index_accounts_on_email` USING btree (`email`), UNIQUE INDEX `index_accounts_on_reset_password_token` USING btree (`reset_password_token`)) ENGINE=InnoDB DEFAULT CHARSET=utf8[0m
+  [1m[35m (815.8ms)[0m  [1m[35mCREATE TABLE `administrators` (`id` int AUTO_INCREMENT PRIMARY KEY, `admin_name` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, `accounts_id` int,  INDEX `index_administrators_on_accounts_id` USING btree (`accounts_id`), UNIQUE INDEX `index_administrators_on_id` USING btree (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8[0m
+  [1m[35m (362.0ms)[0m  [1m[35mCREATE TABLE `customers` (`id` int AUTO_INCREMENT PRIMARY KEY, `customerName` varchar(255), `creditCardInfo` varchar(255), `address` text, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, `accounts_id` int,  INDEX `index_customers_on_accounts_id` USING btree (`accounts_id`), UNIQUE INDEX `index_customers_on_id` USING btree (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8[0m
+  [1m[35m (529.3ms)[0m  [1m[35mCREATE TABLE `order_products` (`id` int AUTO_INCREMENT PRIMARY KEY, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, `unit_price` float(24), `products_id` int, `orders_id` int,  INDEX `index_order_products_on_orders_id` USING btree (`orders_id`),  INDEX `index_order_products_on_products_id` USING btree (`products_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8[0m
+  [1m[35m (405.0ms)[0m  [1m[35mCREATE TABLE `orders` (`id` int AUTO_INCREMENT PRIMARY KEY, `orderStatus` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, `shipping_infos_id` int, `customers_id` int,  INDEX `index_orders_on_customers_id` USING btree (`customers_id`), UNIQUE INDEX `index_orders_on_id` USING btree (`id`),  INDEX `index_orders_on_shipping_infos_id` USING btree (`shipping_infos_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8[0m
+  [1m[35m (430.0ms)[0m  [1m[35mCREATE TABLE `products` (`id` int AUTO_INCREMENT PRIMARY KEY, `name` varchar(255), `price` float(24), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, UNIQUE INDEX `index_products_on_id` USING btree (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8[0m
+  [1m[35m (406.9ms)[0m  [1m[35mCREATE TABLE `shipping_infos` (`id` int AUTO_INCREMENT PRIMARY KEY, `shipping_type` varchar(255), `shipping_cost` int, `shipping_region_id` int, `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL, UNIQUE INDEX `index_shipping_infos_on_id` USING btree (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8[0m
+  [1m[35m (1143.0ms)[0m  [1m[35mALTER TABLE `administrators` ADD CONSTRAINT `fk_rails_ab2573f7d0`
+FOREIGN KEY (`accounts_id`)
+  REFERENCES `accounts` (`id`)
+[0m
+  [1m[35m (975.7ms)[0m  [1m[35mALTER TABLE `customers` ADD CONSTRAINT `fk_rails_66d6827a64`
+FOREIGN KEY (`accounts_id`)
+  REFERENCES `accounts` (`id`)
+[0m
+  [1m[35m (931.7ms)[0m  [1m[35mALTER TABLE `order_products` ADD CONSTRAINT `fk_rails_c14fcb181b`
+FOREIGN KEY (`orders_id`)
+  REFERENCES `orders` (`id`)
+[0m
+  [1m[35m (1010.0ms)[0m  [1m[35mALTER TABLE `order_products` ADD CONSTRAINT `fk_rails_55c2aee58c`
+FOREIGN KEY (`products_id`)
+  REFERENCES `products` (`id`)
+[0m
+  [1m[35m (1001.5ms)[0m  [1m[35mALTER TABLE `orders` ADD CONSTRAINT `fk_rails_a4cda5ee73`
+FOREIGN KEY (`customers_id`)
+  REFERENCES `customers` (`id`)
+[0m
+  [1m[35m (1063.3ms)[0m  [1m[35mALTER TABLE `orders` ADD CONSTRAINT `fk_rails_fbe66f4b22`
+FOREIGN KEY (`shipping_infos_id`)
+  REFERENCES `shipping_infos` (`id`)
+[0m
+  [1m[35m (963.3ms)[0m  [1m[35mCREATE TABLE `schema_migrations` (`version` varchar(255) PRIMARY KEY) ENGINE=InnoDB[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT version FROM `schema_migrations`[0m
+  [1m[35m (352.8ms)[0m  [1m[32mINSERT INTO `schema_migrations` (version) VALUES (20171101121115)[0m
+  [1m[35m (542.3ms)[0m  [1m[32mINSERT INTO `schema_migrations` (version) VALUES
+(20171027100254),
+(20171027092919),
+(20171027100340),
+(20171028080319),
+(20171027030330),
+(20171027103856),
+(20171027100850);
+
+[0m
+  [1m[35m (933.3ms)[0m  [1m[35mCREATE TABLE `ar_internal_metadata` (`key` varchar(255) PRIMARY KEY, `value` varchar(255), `created_at` datetime NOT NULL, `updated_at` datetime NOT NULL) ENGINE=InnoDB[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.6ms)[0m  [1m[34mSELECT  `ar_internal_metadata`.* FROM `ar_internal_metadata` WHERE `ar_internal_metadata`.`key` = 'environment' LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `ar_internal_metadata` (`key`, `value`, `created_at`, `updated_at`) VALUES ('environment', 'test', '2017-11-06 07:04:21', '2017-11-06 07:04:21')[0m
+  [1m[35m (304.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT  `ar_internal_metadata`.* FROM `ar_internal_metadata` WHERE `ar_internal_metadata`.`key` = 'environment' LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.6ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$V1aP1VOORe65QVfQNDDnCOmnD7pOkIbASSuVZ966snTd20AnEtj6.', '2017-11-06 07:04:22', '2017-11-06 07:04:22')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 1 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 1 LIMIT 1[0m
+Redirected to http://test.host/shop
+Filter chain halted as :rec rendered or redirected
+Completed 302 Found in 12ms (ActiveRecord: 1.2ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (204.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$HOl3NWdU4YMJJ82Rm3iawOLo1eZNMX4VVFKlzBHEFxvvx/9gqmz.O', '2017-11-06 07:04:22', '2017-11-06 07:04:22')[0m
+  [1m[35m (0.4ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (0.5ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 2 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.5ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 2 LIMIT 1[0m
+Redirected to http://test.host/shop
+Filter chain halted as :rec rendered or redirected
+Completed 302 Found in 4ms (ActiveRecord: 1.0ms)
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (184.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$tpAAEFF75biR0zMhNPRSrOdUl0O/xhvYw0cwxt11hRQIE5zrkUgja', '2017-11-06 07:04:22', '2017-11-06 07:04:22')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM `products`[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[36mAccount Load (0.6ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 3 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.5ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 3 LIMIT 1[0m
+Redirected to http://test.host/shop
+Filter chain halted as :rec rendered or redirected
+Completed 302 Found in 5ms (ActiveRecord: 1.1ms)
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (265.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$NU9oMr/9hWZj2ucKmVlYUu8pOqAXjDdZKoCanRBJYIBoSNd0dKHee', '2017-11-06 07:07:47', '2017-11-06 07:07:47')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 4 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.2ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 4 LIMIT 1[0m
+Redirected to http://test.host/shop
+Filter chain halted as :rec rendered or redirected
+Completed 302 Found in 12ms (ActiveRecord: 1.0ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (189.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$KICj9ZWdVeikALBf0nEzz.yfN.k9IZVHIw.AfXf.mp0X6jpzcT9Yi', '2017-11-06 07:07:47', '2017-11-06 07:07:47')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (1.5ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 5 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.5ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 5 LIMIT 1[0m
+Redirected to http://test.host/shop
+Filter chain halted as :rec rendered or redirected
+Completed 302 Found in 7ms (ActiveRecord: 2.0ms)
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (203.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$CpU.jLcCkCsQFbv8RiWaPeK55XAv7fnwbc3oigS3W6CamMFrrZtdG', '2017-11-06 07:07:48', '2017-11-06 07:07:48')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (245.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$Gc.gPZjgrGmO14arCVukJuwPJKlB.wNGjcCQy9mlqS1uKCKcqZbpe', '2017-11-06 07:09:37', '2017-11-06 07:09:37')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  Rendering product/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/index.html.erb within layouts/application (0.3ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+Completed 200 OK in 37ms (Views: 20.5ms | ActiveRecord: 0.0ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (212.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$C4tzvdbEBJKsKdwPrFzS5eeSaLM8B9GcyWZC24htRO3Kda.fZGLJ2', '2017-11-06 07:09:37', '2017-11-06 07:09:37')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  Rendering product/new.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/new.html.erb within layouts/application (0.4ms)
+Completed 200 OK in 16ms (Views: 1.7ms | ActiveRecord: 1.8ms)
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (196.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$2AihAmMSGtp7AO1BJNRZVuBq.rB3uLKkO52.lVBKdVYeK0wYMtQ/W', '2017-11-06 07:09:37', '2017-11-06 07:09:37')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  Rendering text template
+  Rendered text template (0.0ms)
+Completed 520  in 128366ms (Views: 4.9ms | ActiveRecord: 0.0ms)
+  [1m[35mSQL (0.6ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (165.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$JKUYhNmYenoRmcgnJ3miVO0kzBS64jqpPUWblnoYG/DmYUtyINobe', '2017-11-06 07:11:54', '2017-11-06 07:11:54')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 10 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 10 LIMIT 1[0m
+Redirected to http://test.host/shop
+Filter chain halted as :rec rendered or redirected
+Completed 302 Found in 49ms (ActiveRecord: 1.3ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (449.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$4He.NR2DRQHKDWch6r/N9eOqTAVEYHWcrTMq7jY/ZEfTDxDy6ZE6q', '2017-11-06 07:11:55', '2017-11-06 07:11:55')[0m
+  [1m[35m (0.4ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (0.9ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 11 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.7ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 11 LIMIT 1[0m
+Redirected to http://test.host/shop
+Filter chain halted as :rec rendered or redirected
+Completed 302 Found in 7ms (ActiveRecord: 1.7ms)
+  [1m[35mSQL (0.7ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (377.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$wVNHtWdM7S85nktbIaY18.LCWrX7S3vHCM9QG7QYaJNZGEmVHacye', '2017-11-06 07:11:55', '2017-11-06 07:11:55')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[36mAccount Load (0.4ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 12 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 12 LIMIT 1[0m
+Redirected to http://test.host/shop
+Filter chain halted as :rec rendered or redirected
+Completed 302 Found in 3ms (ActiveRecord: 0.7ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (1408.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT @@FOREIGN_KEY_CHECKS[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 0[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `products`[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:15:32', '2017-11-06 07:15:32', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:15:32', '2017-11-06 07:15:32', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `orders`[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:15:32', '2017-11-06 07:15:32', 980190962)[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:15:32', '2017-11-06 07:15:32', 298486374)[0m
+  [1m[36mFixture Delete (0.3ms)[0m  [1m[31mDELETE FROM `shipping_infos`[0m
+  [1m[36mFixture Insert (0.4ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:15:32', '2017-11-06 07:15:32', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:15:32', '2017-11-06 07:15:32', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `customers`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:15:32', '2017-11-06 07:15:32', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:15:32', '2017-11-06 07:15:32', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `order_products`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:15:32', '2017-11-06 07:15:32', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:15:32', '2017-11-06 07:15:32', 298486374)[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `accounts`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:15:32', '2017-11-06 07:15:32', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:15:32', '2017-11-06 07:15:32', 298486374)[0m
+  [1m[35m (185.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 1[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT @@FOREIGN_KEY_CHECKS[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mFixture Delete (0.2ms)[0m  [1m[31mDELETE FROM `products`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:36:00', '2017-11-06 07:36:00', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:36:00', '2017-11-06 07:36:00', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `orders`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:36:00', '2017-11-06 07:36:00', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `orders` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:36:00', '2017-11-06 07:36:00', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `shipping_infos`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:36:00', '2017-11-06 07:36:00', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `shipping_infos` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:36:00', '2017-11-06 07:36:00', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `customers`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:36:00', '2017-11-06 07:36:00', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `customers` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:36:00', '2017-11-06 07:36:00', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `order_products`[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:36:00', '2017-11-06 07:36:00', 980190962)[0m
+  [1m[36mFixture Insert (0.1ms)[0m  [1m[32mINSERT INTO `order_products` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:36:00', '2017-11-06 07:36:00', 298486374)[0m
+  [1m[36mFixture Delete (0.1ms)[0m  [1m[31mDELETE FROM `accounts`[0m
+  [1m[36mFixture Insert (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:36:00', '2017-11-06 07:36:00', 980190962)[0m
+  [1m[36mFixture Insert (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`created_at`, `updated_at`, `id`) VALUES ('2017-11-06 07:36:00', '2017-11-06 07:36:00', 298486374)[0m
+  [1m[35m (1098.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSET FOREIGN_KEY_CHECKS = 1[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `products`[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `products`[0m
+  [1m[36mProduct Load (0.7ms)[0m  [1m[34mSELECT `products`.* FROM `products`[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$kGBrNczU.43dmVk1mBVkKOFZO7kg/SfKl1k38UsbSYQ75En94X/Oi', '2017-11-06 07:49:50', '2017-11-06 07:49:50')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  Rendering product/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/index.html.erb within layouts/application (0.2ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+Completed 200 OK in 7ms (Views: 5.0ms | ActiveRecord: 0.0ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (169.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$dDPmd0ynVVRubJ92hy7yoeAc3Sb9nydOfMEustiU7kEv/bnB6xL2y', '2017-11-06 07:49:50', '2017-11-06 07:49:50')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  Rendering product/new.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/new.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 19ms (Views: 1.8ms | ActiveRecord: 2.1ms)
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (167.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.8ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$cBKl7nY8hUopBkWFqAx9jOtrhPscVfF0NVdLjBXFOfEXK6b/tdZPW', '2017-11-06 07:49:50', '2017-11-06 07:49:50')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 07:49:50', '2017-11-06 07:49:50')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://test.host/product/list
+Completed 302 Found in 12ms (ActiveRecord: 0.9ms)
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (173.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$bbbbM8mMc9sycF1HP9h2qOFZLtYQGEzPcXrfYXUQ9Nih0kGuQSMuO', '2017-11-06 07:51:37', '2017-11-06 07:51:37')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  Rendering product/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/index.html.erb within layouts/application (0.2ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+Completed 200 OK in 7ms (Views: 5.0ms | ActiveRecord: 0.0ms)
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (1330.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.9ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$Ji6gBfCCtTJKH8ZAsFu9BOC57m44DsdHBAxXvVfDeauaYymYgxS9e', '2017-11-06 07:51:38', '2017-11-06 07:51:38')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  Rendering product/new.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/new.html.erb within layouts/application (0.5ms)
+Completed 200 OK in 18ms (Views: 1.7ms | ActiveRecord: 2.1ms)
+  [1m[35mSQL (0.6ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (228.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$jh3NoFAwdJF.WJc31VVpXeA4sVeqJn4gXCrdFoYtSxOi.xuyx2/Uq', '2017-11-06 07:51:39', '2017-11-06 07:51:39')[0m
+  [1m[35m (0.4ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[35m (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 07:51:39', '2017-11-06 07:51:39')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://test.host/product/list
+Completed 302 Found in 13ms (ActiveRecord: 1.1ms)
+  [1m[35mSQL (0.6ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (184.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$WfHsoKKF.C4kk7QuceO3Xe4e7E.2JX/X7rUPYRBPkdHkgd1/cu3Na', '2017-11-06 07:52:20', '2017-11-06 07:52:20')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.4ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190969 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.4ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190969 LIMIT 1[0m
+Redirected to http://test.host/shop
+Filter chain halted as :rec rendered or redirected
+Completed 302 Found in 18ms (ActiveRecord: 1.3ms)
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (281.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$pk7VY/dxJT1..dd1cIxvReNtajyY0yuDwV8ILMm44TKUgP0Kcj/y6', '2017-11-06 07:52:21', '2017-11-06 07:52:21')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (0.5ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190970 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.4ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190970 LIMIT 1[0m
+Redirected to http://test.host/shop
+Filter chain halted as :rec rendered or redirected
+Completed 302 Found in 4ms (ActiveRecord: 1.0ms)
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (201.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$op378EXOruvStvBlxRSz5e4sOqGjYQT8pTF1VpliE3r7qQyG9/3WK', '2017-11-06 07:52:21', '2017-11-06 07:52:21')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[36mAccount Load (0.6ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190971 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.6ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190971 LIMIT 1[0m
+Redirected to http://test.host/shop
+Filter chain halted as :rec rendered or redirected
+Completed 302 Found in 5ms (ActiveRecord: 1.2ms)
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (206.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$8rWIxEm3RKjMG1amq4Cpj.q6s6JAlTl2Mwq//w2bM5fmqthsph3Q2', '2017-11-06 08:04:53', '2017-11-06 08:04:53')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (179.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.5ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (1.0ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$ScfbITLxXR4/DxqEQkjIDeQtJvwf2wU3KF.AL9ePwhJIsRV.W2Swe', '2017-11-06 08:04:53', '2017-11-06 08:04:53')[0m
+  [1m[35m (0.4ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (174.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$HoRI34MOCUM6apDMVH8heuYWTj6QmaLq6EW.5ZEJjcXLFzYeIXsqy', '2017-11-06 08:04:54', '2017-11-06 08:04:54')[0m
+  [1m[35m (0.4ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (176.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$lszEi55JOTHZLYRDwgp6Zu4vGi6ksVKEghOt4y/SMMPbetGzMqs/G', '2017-11-06 08:05:08', '2017-11-06 08:05:08')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (254.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$GZHosXyDSGlpgDSmAD9tYuKtEXNWjQcrfllMJy/wJHpRY9x9eVKsC', '2017-11-06 08:05:08', '2017-11-06 08:05:08')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (186.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$XN0fQAL6WPq6mcF/7jjag.Dak5aIxEzTkpYV0r/YiTHC3gSfn7POC', '2017-11-06 08:05:09', '2017-11-06 08:05:09')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (189.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$UDFcPPfYtz8PTvYZmpNjau2yhVwerqQOpjhLGyvd.tD8Zf9BgLVnK', '2017-11-06 08:05:52', '2017-11-06 08:05:52')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (945.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$7ZhRjf1Mdck7FO3xycWADecSXpb8sW5ESDa98/QDSWR5qcZZBZOtS', '2017-11-06 08:05:53', '2017-11-06 08:05:53')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (204.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$vArdl7EL64leHdTnHkUDPe6wlqbinlyXLbkx1wiRDKJRFRtJJhKVO', '2017-11-06 08:05:53', '2017-11-06 08:05:53')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (205.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$7n.aiRF4U11lAjmswV1hMO3JmSo3fnuhIVcDfSHsFcdYjiLwz5McW', '2017-11-06 08:06:27', '2017-11-06 08:06:27')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (201.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$EovccZr2fkoDRQ17Ov7Geu0lXs9sC/JrENHY.CYI.whlN24b9/lLy', '2017-11-06 08:06:27', '2017-11-06 08:06:27')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (215.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$sOSeBl..bMfwTbrnbm4HwuVfWXVhuBqAmUNOwd2AF37K.vUi2uC/.', '2017-11-06 08:06:27', '2017-11-06 08:06:27')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (204.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$swR1W1mro.5MNoPkG8AhkOMS8qZ51qIUqBCj9gKfoS7z/BWlp.KAC', '2017-11-06 08:07:30', '2017-11-06 08:07:30')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:08:07', '2017-11-06 08:08:07', 980190984)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.5ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35mSQL (1.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (205.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.8ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$Gb/h2sBmG1zBrgllm6JJsuQVwK/xQcjC1lGWYOuyLO5PJsVew0VZO', '2017-11-06 08:08:07', '2017-11-06 08:08:07')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:08:30', '2017-11-06 08:08:30', 980190985)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35m (0.4ms)[0m  [1m[31mROLLBACK TO SAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.1ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35mSQL (1.1ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (924.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.9ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$Dro2NKFN1mqagsxaAMDo.ONyXIK5OdRIU8awAiOb/OThuswInr3ga', '2017-11-06 08:08:31', '2017-11-06 08:08:31')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$umNwcCgpgsptf2UVdRb3Y.6E/Q7qqpIT5VfrIOkZqOLugkaeaqqUu', '2017-11-06 08:10:32', '2017-11-06 08:10:32')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:10:32', '2017-11-06 08:10:32', 980190987)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.4ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190987 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190987 LIMIT 1[0m
+  Rendering product/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/index.html.erb within layouts/application (0.3ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+Completed 200 OK in 15ms (Views: 5.9ms | ActiveRecord: 0.7ms)
+  [1m[35mSQL (0.6ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (184.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (1.1ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$wEuHyJ0iNS4aXNO.fHK9i.ySwz/kxMFamLTA/8GobUSZPBQ5gLZkW', '2017-11-06 08:10:32', '2017-11-06 08:10:32')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:10:32', '2017-11-06 08:10:32', 980190988)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (0.4ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190988 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.4ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190988 LIMIT 1[0m
+  Rendering product/new.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 12ms (Views: 0.9ms | ActiveRecord: 2.3ms)
+  [1m[35mSQL (0.6ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (177.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$mVUKxMmiaXhZ42xMovHpjOToYrfsuDJSupBFTc3oCXW4NK2uvY7U.', '2017-11-06 08:10:32', '2017-11-06 08:10:32')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:10:32', '2017-11-06 08:10:32', 980190989)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[36mAccount Load (0.5ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190989 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.4ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190989 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 08:10:32', '2017-11-06 08:10:32')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://test.host/product/list
+Completed 302 Found in 12ms (ActiveRecord: 1.7ms)
+  [1m[35mSQL (0.8ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (183.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$RvL.jwH8Z36FSlVRC4A3i.s6mb01JdDdC8U/UGQAoh7RSz6zTi/xe', '2017-11-06 08:11:19', '2017-11-06 08:11:19')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:11:19', '2017-11-06 08:11:19', 980190990)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190990 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190990 LIMIT 1[0m
+  Rendering product/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/index.html.erb within layouts/application (0.2ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+Completed 200 OK in 15ms (Views: 5.4ms | ActiveRecord: 0.7ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (401.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$f6m.R46dl8e/94n.KDWKDuRUKY7mykKYM9rB8I3/A3rJ9DFgGGNJW', '2017-11-06 08:11:19', '2017-11-06 08:11:19')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:11:19', '2017-11-06 08:11:19', 980190991)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (0.6ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190991 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.4ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190991 LIMIT 1[0m
+  Rendering product/new.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/new.html.erb within layouts/application (0.4ms)
+Completed 200 OK in 19ms (Views: 1.5ms | ActiveRecord: 2.5ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (186.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$25/x3pipXSXbvcznASlM8.0WhGLmjLLHGAuDU/J3unv.zqB.zrrRu', '2017-11-06 08:11:20', '2017-11-06 08:11:20')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:11:20', '2017-11-06 08:11:20', 980190992)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[36mAccount Load (0.4ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190992 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190992 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 08:11:20', '2017-11-06 08:11:20')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://test.host/product/list
+Completed 302 Found in 8ms (ActiveRecord: 1.3ms)
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (174.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$kKMZ1EhBPl96CNASkLVH7uGokig9RdHUE14aPb3JcETS1B2dD4sWW', '2017-11-06 08:11:32', '2017-11-06 08:11:32')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:11:32', '2017-11-06 08:11:32', 980190993)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190993 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.2ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190993 LIMIT 1[0m
+  Rendering product/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/index.html.erb within layouts/application (0.2ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+Completed 200 OK in 13ms (Views: 5.4ms | ActiveRecord: 0.5ms)
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (1030.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$DURtLL/yB5f0UHK.l3rTFuj7upX8ztVtDLeFcS8Pqo.JHVlQW//ja', '2017-11-06 08:11:33', '2017-11-06 08:11:33')[0m
+  [1m[35m (2.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (2.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:11:33', '2017-11-06 08:11:33', 980190994)[0m
+  [1m[35m (0.4ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (0.4ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190994 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.8ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190994 LIMIT 1[0m
+  Rendering product/new.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 13ms (Views: 0.8ms | ActiveRecord: 2.7ms)
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (187.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$AiFbj0wNwVrO99wyvGLR7Oi5rqMCobRJ9cWDx.UROSVavBSLDKYEO', '2017-11-06 08:11:33', '2017-11-06 08:11:33')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:11:33', '2017-11-06 08:11:33', 980190995)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[36mAccount Load (0.4ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190995 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.4ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190995 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 08:11:33', '2017-11-06 08:11:33')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://test.host/product/list
+Completed 302 Found in 11ms (ActiveRecord: 1.5ms)
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (171.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$a4Z5U4Dt44HEtBceXEtf7uR7ALfmEJv1G6aTmBsnXn/wjcH5NbZO6', '2017-11-06 08:11:53', '2017-11-06 08:11:53')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:11:53', '2017-11-06 08:11:53', 980190996)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190996 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190996 LIMIT 1[0m
+  Rendering product/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/index.html.erb within layouts/application (0.3ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+Completed 200 OK in 14ms (Views: 5.5ms | ActiveRecord: 0.5ms)
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (215.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$npQWR/nekD1VGQs9OnOO4usrRIZHvQ2y7nwRlloJc0B3RRpMnOyLa', '2017-11-06 08:11:53', '2017-11-06 08:11:53')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:11:53', '2017-11-06 08:11:53', 980190997)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (0.4ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190997 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.2ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190997 LIMIT 1[0m
+  Rendering product/new.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 9ms (Views: 0.8ms | ActiveRecord: 1.2ms)
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (183.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.8ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$RWDHrsWEn3Rmkybkhiz/zuu0DAGSVb022vYLF/T1jTZIowl/TD94W', '2017-11-06 08:11:53', '2017-11-06 08:11:53')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:11:53', '2017-11-06 08:11:53', 980190998)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[36mAccount Load (0.5ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190998 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.4ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190998 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 08:11:53', '2017-11-06 08:11:53')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://test.host/product/list
+Completed 302 Found in 13ms (ActiveRecord: 1.5ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (220.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$De6AN6akusMSUpruXDN6xeqnM./eFVSkay8Gx6nDRL0x0Pmd/rG4q', '2017-11-06 08:26:58', '2017-11-06 08:26:58')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:26:58', '2017-11-06 08:26:58', 980190999)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980190999 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.2ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980190999 LIMIT 1[0m
+  Rendering product/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/index.html.erb within layouts/application (0.2ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+Completed 200 OK in 13ms (Views: 5.1ms | ActiveRecord: 0.5ms)
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (361.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.7ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$DUDLLRzcY9wv4POX9Y6dMej5.KY.QuC9uOhaDSDwsEeZQcrTexPmW', '2017-11-06 08:26:59', '2017-11-06 08:26:59')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:26:59', '2017-11-06 08:26:59', 980191000)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (0.5ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191000 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.4ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191000 LIMIT 1[0m
+  Rendering product/new.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/new.html.erb within layouts/application (0.4ms)
+Completed 200 OK in 17ms (Views: 1.4ms | ActiveRecord: 2.4ms)
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (199.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$3K89hnJp6EFsYJIBXP/b5.7aRNraUhZs7GM/q0fePmJ5tFZqtTVdi', '2017-11-06 08:26:59', '2017-11-06 08:26:59')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 08:26:59', '2017-11-06 08:26:59', 980191001)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191001 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.2ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191001 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 08:27:14', '2017-11-06 08:27:14')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM `products`[0m
+  [1m[36mProduct Load (0.4ms)[0m  [1m[34mSELECT  `products`.* FROM `products` ORDER BY `products`.`id` ASC LIMIT 1[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM `accounts`[0m
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://test.host/product/list
+Completed 302 Found in 184578ms (ActiveRecord: 3.3ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (184.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM `products`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('dog', 10000.0, '2017-11-06 08:31:23', '2017-11-06 08:31:23')[0m
+  [1m[35m (938.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$sVCRyc4Y1nGwIl7Yl9Jj9uesomPZqIga.WvgTBN6OHiEXVSPhtueS', '2017-11-06 09:39:33', '2017-11-06 09:39:33')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:39:33', '2017-11-06 09:39:33', 980191002)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191002 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.2ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191002 LIMIT 1[0m
+  Rendering product/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/index.html.erb within layouts/application (0.2ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+Completed 200 OK in 14ms (Views: 5.4ms | ActiveRecord: 0.5ms)
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (219.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$fLSYde487C36BTmtsz1kD.Bl1NzD78a7wz4nNK5dRw3NqZkFQY59C', '2017-11-06 09:39:33', '2017-11-06 09:39:33')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:39:33', '2017-11-06 09:39:33', 980191003)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191003 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.2ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191003 LIMIT 1[0m
+  Rendering product/new.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/new.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 10ms (Views: 1.0ms | ActiveRecord: 1.3ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (192.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.8ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$t/oApFh/HR.7cLddD.QZtO7Mys9QgFWt0UJ6NL3NLx8i2Ur8pCNL2', '2017-11-06 09:39:33', '2017-11-06 09:39:33')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:39:33', '2017-11-06 09:39:33', 980191004)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[36mAccount Load (0.5ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191004 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.4ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191004 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 09:39:33', '2017-11-06 09:39:33')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://test.host/product/list
+Completed 302 Found in 13ms (ActiveRecord: 1.6ms)
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (182.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$7RYHyNLKY7xgEcGLcuPcmuLt2W3YVxo0bVRpYVbL8QXxzdxvge0BC', '2017-11-06 09:44:06', '2017-11-06 09:44:06')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:44:06', '2017-11-06 09:44:06', 980191005)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191005 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191005 LIMIT 1[0m
+  Rendering product/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/index.html.erb within layouts/application (0.2ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+Completed 200 OK in 14ms (Views: 5.3ms | ActiveRecord: 0.6ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (215.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$r.qhsIyopDlIsRnKEekTneRwTTMxxunFFt3.OQ/HpmhgEm9Lv7Rsu', '2017-11-06 09:44:06', '2017-11-06 09:44:06')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:44:06', '2017-11-06 09:44:06', 980191006)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (0.4ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191006 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191006 LIMIT 1[0m
+  Rendering product/new.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 10ms (Views: 0.8ms | ActiveRecord: 1.5ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (208.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$2tVWvNrR64rKpadO1r2TzuKv2zoeav6cQSp31aalEX78tG/OaDASa', '2017-11-06 09:44:06', '2017-11-06 09:44:06')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:44:06', '2017-11-06 09:44:06', 980191007)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[36mAccount Load (0.9ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191007 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.4ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191007 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 09:44:06', '2017-11-06 09:44:06')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://test.host/product/list
+Completed 302 Found in 10ms (ActiveRecord: 1.9ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (204.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$iCOuRa75E/2WJqxRrBq41eOYPsyBeksgPHI2BWgyHEYxzOFv4mwDe', '2017-11-06 09:44:06', '2017-11-06 09:44:06')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:44:06', '2017-11-06 09:44:06', 980191008)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (203.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$Oe0ukbkIiwevr/Dk1EQUFuRVVdcEC5WozwKL0jaqxhOquZqgx3hrG', '2017-11-06 09:44:21', '2017-11-06 09:44:21')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:44:21', '2017-11-06 09:44:21', 980191009)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191009 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.4ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191009 LIMIT 1[0m
+  Rendering product/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/index.html.erb within layouts/application (0.2ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+Completed 200 OK in 14ms (Views: 5.2ms | ActiveRecord: 0.7ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (987.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$uXYmmXaid1z8KZiNXQqDNeE7932gk2YhToeLUy0yPFWhteD296v06', '2017-11-06 09:44:22', '2017-11-06 09:44:22')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:44:22', '2017-11-06 09:44:22', 980191010)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (0.4ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191010 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.2ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191010 LIMIT 1[0m
+  Rendering product/new.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 12ms (Views: 0.8ms | ActiveRecord: 1.6ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (181.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$vYHQZrxMufO0B8tamLC99.5oCN8t4/kXlVNKSifEBzVa8L70ZuGou', '2017-11-06 09:44:22', '2017-11-06 09:44:22')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:44:22', '2017-11-06 09:44:22', 980191011)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[36mAccount Load (0.4ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191011 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191011 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 09:44:22', '2017-11-06 09:44:22')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://test.host/product/list
+Completed 302 Found in 11ms (ActiveRecord: 1.1ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (181.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$0rk0Iq0Fji5/ytonSUnWbeat3KsZuNIuOqhjON9V251kShBQbEL8u', '2017-11-06 09:44:22', '2017-11-06 09:44:22')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:44:22', '2017-11-06 09:44:22', 980191012)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (189.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$beHr.SbQjnjziysXHIb/4.cWcPfzqpPJg2XQN/oU5zEI9YCDKECNS', '2017-11-06 09:48:37', '2017-11-06 09:48:37')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:48:37', '2017-11-06 09:48:37', 980191013)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191013 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191013 LIMIT 1[0m
+  Rendering product/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/index.html.erb within layouts/application (0.3ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+Completed 200 OK in 14ms (Views: 5.7ms | ActiveRecord: 0.6ms)
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (179.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$sTusyX/7apFKuIjBt4uUZ.AgMfpA/0F.dn5k6U3iTbmEFK5f0fU2y', '2017-11-06 09:48:37', '2017-11-06 09:48:37')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:48:37', '2017-11-06 09:48:37', 980191014)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (0.6ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191014 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.6ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191014 LIMIT 1[0m
+  Rendering product/new.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/new.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 12ms (Views: 1.0ms | ActiveRecord: 2.9ms)
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (197.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$V/.2H53UMaH.iHKTi8M/Jeyw.eeJi.8Ef5eh4T/7Eer.W64Rmj1bq', '2017-11-06 09:48:37', '2017-11-06 09:48:37')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (1.4ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:48:37', '2017-11-06 09:48:37', 980191015)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[36mAccount Load (0.4ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191015 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191015 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 09:48:37', '2017-11-06 09:48:37')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://test.host/product/list
+Completed 302 Found in 11ms (ActiveRecord: 1.3ms)
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (174.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$.krWliKq2D/N8Q2pWBvXFuMx9UzJkJCd8EvEhv5tbwk.YZ6jQjyMG', '2017-11-06 09:48:37', '2017-11-06 09:48:37')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:48:37', '2017-11-06 09:48:37', 980191016)[0m
+  [1m[35m (2.5ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 09:48:37', '2017-11-06 09:48:37')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#edit as HTML
+  Parameters: {"id"=>"980190975"}
+  [1m[36mAccount Load (0.4ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191016 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191016 LIMIT 1[0m
+  [1m[36mProduct Load (0.3ms)[0m  [1m[34mSELECT  `products`.* FROM `products` WHERE `products`.`id` = 980190975 LIMIT 1[0m
+  Rendering product/edit.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/edit.html.erb within layouts/application (0.3ms)
+Completed 200 OK in 24ms (Views: 1.0ms | ActiveRecord: 1.1ms)
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (180.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$NEIB4W9M3AtjKDhbsM9iuOxicMKX1zicPeLK4CE8O/0vIpFTDpd6i', '2017-11-06 09:52:41', '2017-11-06 09:52:41')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:52:41', '2017-11-06 09:52:41', 980191017)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191017 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191017 LIMIT 1[0m
+  Rendering product/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/index.html.erb within layouts/application (0.3ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+Completed 200 OK in 16ms (Views: 5.9ms | ActiveRecord: 0.7ms)
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (174.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$XwtFo1jMnrMgT4f3jUVWfe1sdLK/.um/B.neZ5/hurLLULopitr3G', '2017-11-06 09:52:41', '2017-11-06 09:52:41')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:52:41', '2017-11-06 09:52:41', 980191018)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191018 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.5ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191018 LIMIT 1[0m
+  Rendering product/new.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 10ms (Views: 0.8ms | ActiveRecord: 1.7ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (187.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$Bf0FzjBDYQBe6oFea.dUL.3HHYYqFdVllNpXHi3oxSQURfXBOieMS', '2017-11-06 09:52:41', '2017-11-06 09:52:41')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:52:41', '2017-11-06 09:52:41', 980191019)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191019 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191019 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 09:52:41', '2017-11-06 09:52:41')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://test.host/product/list
+Completed 302 Found in 11ms (ActiveRecord: 1.1ms)
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (202.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$lpYDkQTBgzZbckUHMkhEXOC1U4PYdzt/7MRsrR6DBnLfqwv.aFMBu', '2017-11-06 09:52:41', '2017-11-06 09:52:41')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:52:41', '2017-11-06 09:52:41', 980191020)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 09:52:41', '2017-11-06 09:52:41')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#edit as HTML
+  Parameters: {"id"=>"980190977"}
+  [1m[36mAccount Load (0.5ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191020 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191020 LIMIT 1[0m
+  [1m[36mProduct Load (0.3ms)[0m  [1m[34mSELECT  `products`.* FROM `products` WHERE `products`.`id` = 980190977 LIMIT 1[0m
+  Rendering product/edit.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/edit.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 7ms (Views: 0.9ms | ActiveRecord: 1.2ms)
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (212.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT `schema_migrations`.* FROM `schema_migrations`[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$XHg46ceCPeWdKrOaoWlCUOdFCBJXBmy1K1q5tFu0XjXsUQfNtu/hG', '2017-11-06 09:59:50', '2017-11-06 09:59:50')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:59:50', '2017-11-06 09:59:50', 980191021)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#index as HTML
+  [1m[36mAccount Load (0.3ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191021 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191021 LIMIT 1[0m
+  Rendering product/index.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/index.html.erb within layouts/application (0.2ms)
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+Completed 200 OK in 14ms (Views: 5.4ms | ActiveRecord: 0.7ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (174.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.8ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.9ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$FtPMIjbNNFqfy2R/MNjcxuCLULkQ1iWosUzPbZ2rD29xj74htXnv.', '2017-11-06 09:59:50', '2017-11-06 09:59:50')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:59:50', '2017-11-06 09:59:50', 980191022)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#new as HTML
+  [1m[36mAccount Load (0.7ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191022 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.6ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191022 LIMIT 1[0m
+  Rendering product/new.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/new.html.erb within layouts/application (0.4ms)
+Completed 200 OK in 18ms (Views: 1.4ms | ActiveRecord: 2.7ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (178.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$a4O2Bx1F4VxYeCc9xcki7eDZpUep5Jc8HHJq1I0L3CHG1if5uhs7e', '2017-11-06 09:59:50', '2017-11-06 09:59:50')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:59:50', '2017-11-06 09:59:50', 980191023)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#create as HTML
+  Parameters: {"product"=>{"name"=>"My Widget", "price"=>"20"}}
+  [1m[36mAccount Load (0.6ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191023 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.4ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191023 LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 09:59:50', '2017-11-06 09:59:50')[0m
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://test.host/product/list
+Completed 302 Found in 14ms (ActiveRecord: 1.7ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (197.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mAccount Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM `accounts` WHERE `accounts`.`email` = BINARY 'test_account@edumall.vn' LIMIT 1[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO `accounts` (`email`, `encrypted_password`, `created_at`, `updated_at`) VALUES ('test_account@edumall.vn', '$2a$04$.Z9uLW/KLVgM2stjcw08oulAliW.p3qnYPk8EwyfjVm55sEZT4I7q', '2017-11-06 09:59:50', '2017-11-06 09:59:50')[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO `administrators` (`admin_name`, `created_at`, `updated_at`, `accounts_id`) VALUES ('vu', '2017-11-06 09:59:50', '2017-11-06 09:59:50', 980191024)[0m
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO `products` (`name`, `price`, `created_at`, `updated_at`) VALUES ('My Widget', 20.0, '2017-11-06 09:59:50', '2017-11-06 09:59:50')[0m
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Processing by ProductController#edit as HTML
+  Parameters: {"id"=>"980190979"}
+  [1m[36mAccount Load (0.4ms)[0m  [1m[34mSELECT  `accounts`.* FROM `accounts` WHERE `accounts`.`id` = 980191024 ORDER BY `accounts`.`id` ASC LIMIT 1[0m
+  [1m[36mAdministrator Load (0.3ms)[0m  [1m[34mSELECT  `administrators`.* FROM `administrators` WHERE `administrators`.`accounts_id` = 980191024 LIMIT 1[0m
+  [1m[36mProduct Load (0.4ms)[0m  [1m[34mSELECT  `products`.* FROM `products` WHERE `products`.`id` = 980190979 LIMIT 1[0m
+  Rendering product/edit.html.erb within layouts/application
+  Template rendering was prevented by rspec-rails. Use `render_views` to verify rendered view contents if necessary.
+  Rendered product/edit.html.erb within layouts/application (0.4ms)
+Completed 200 OK in 33494ms (Views: 1.2ms | ActiveRecord: 1.1ms)
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM `administrators`[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM `accounts` WHERE (email = 'test_account@edumall.vn')[0m
+  [1m[35m (329.2ms)[0m  [1m[31mROLLBACK[0m
